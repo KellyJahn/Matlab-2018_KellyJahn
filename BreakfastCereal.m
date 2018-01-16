@@ -1,32 +1,44 @@
 % BreakfastCereal
 % 
-% Provides examples of fun things you can do with cereal boxes
-% Inspired by my husband's mis-spelt childhood
-%
+% Ch 2 Exercises
 %  written KJ 1/3/2018 for Matlab 2018
 
+%Example
 frosted = 'FROSTED FLAKES';
-cheerios = 'CHEERIOS';
 
 frosted_scrambled = frosted;
-
 frosted_scrambled(9) = 'E'; %make the 9th thing in frosted the variable E
-
 frosted_scrambled([6 13]) = ['F' 'X'];
 
-%ff=find(frosted == 'F') %double equal signs checks whether something is the same or not, whereas single = sets something equal to another
+ff=find(frosted == 'F'); %double equal signs checks whether something is the same or not, whereas single = sets something equal to another
 %asking which values in the variable 'frosted' are 'f'
+disp(frosted_scrambled);
 
-%disp(frosted_scrambled);
+%Q2.1: Replacing letters in strings
+cheerios = 'CHEERIOS';
 
-%Exercise 2.2
+cheerios_scrambled = cheerios;
+cheerios_scrambled([1 5]) = ['O' 'P'];
+disp(cheerios_scrambled);
+
+chemistry = 'CHEMISTRY';
+chemistry_scrambled = chemistry;
+chemistry_scrambled([1 8]) = ['O' 'B'];
+disp(chemistry_scrambled);
+
+mac = 'MACARONI AND CHEESE';
+mac_scrambled = mac;
+mac_scrambled([3 14 8]) = ['O' 'O' 'R'];
+disp(mac_scrambled);
+
+%Q2.2: More replacing letters in strings
 str = 'MACARONI AND CHEESE';
 id1=str([1 2 7 9 14:19]);
 id2=str([15 16 5 9 1 8 7 12 9 8 18 9 3 15 8 7 19 18 19]);
 disp(id1);
 disp(id2);
 
-%Exercise 2.3
+%Q2.3: Creating vectors
 A = 1:10;
 A2 = linspace(1,10,10);
 disp(A);
@@ -57,17 +69,48 @@ E2_pi = linspace(0,15.7080,6);
 disp(E);
 disp(E2);
 
-%Exercise 2.4
+%Q2.4: More indexing into strings
 str2 = 'aaaaaaaaaaaaaaaaaaaa';
-str2(3:3:20) = ['c'];
+str2(3:3:end) = ['c'];
 disp(str2);
 
-str2(2:3:20) = ['b'];
+str2(2:3:end) = ['b'];
+disp(str2);
+
+disp(str2(3:3:end)); %demonstrating that every 3rd letter is 'c'
+
+str2(4:6) = ['d' 'e' 'f'];
 disp(str2);
 
 str2([4:6 10:12 16:18]) = ['d' 'e' 'f' 'd' 'e' 'f' 'd' 'e' 'f'];
 disp(str2);
-disp(str2([6 12 18]));
 
+disp(str2([6 12 18])); % demonstrating that 6th, 12th and 18th letters are 'f'
 
+%Q2.5: Indexing into vectors
 
+time = [12:1.23:100]; %pick an ending number that would give more than 40 measurements
+time = time(1:40);
+disp(time(5));
+disp(time(end));
+
+%Q2.6: Still more indexing
+resp='rerekererererererererererererererererere';
+disp(find(resp == 'k')); % finding the index with the 'k'
+
+resp(5) = 'r';
+disp(resp);
+disp(find(resp == 'e')); %finding the indices where 'e' was pressed. This is how I originally did it
+disp(resp(2:2:end)); %solution from book - easier to see that all the even ones are 'e'
+
+%Q2.7: Checking your understanding
+vect = 12:-1:1;
+
+%Guess outputs
+%a) vect(1:12) = [12 11 10 9 8 7 6 5 4 3 2 1]
+%b) vect(12:-1:1) = [1 2 3 4 5 6 7 8 9 10 11 12]
+%c) vect([10 12 9 12 8 4]) = [3 1 4 1 5 9]
+%d) vect(1:2) = [12 11]
+%e) vect(vect(1:2)) = [1 2]
+%f) vect(vect) = [1 2 3 4 5 6 7 8 9 10 11 12]
+%g) vect(vect(vect)) = [12 11 10 9 8 7 6 5 4 3 2 1]
