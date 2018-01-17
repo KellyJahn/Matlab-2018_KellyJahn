@@ -3,7 +3,7 @@
 % Ch 2 Exercises
 %  written KJ 1/3/2018 for Matlab 2018
 
-%Example
+%% Example
 frosted = 'FROSTED FLAKES';
 
 frosted_scrambled = frosted;
@@ -14,7 +14,7 @@ ff=find(frosted == 'F'); %double equal signs checks whether something is the sam
 %asking which values in the variable 'frosted' are 'f'
 disp(frosted_scrambled);
 
-%Q2.1: Replacing letters in strings
+%% Q2.1: Replacing letters in strings
 cheerios = 'CHEERIOS';
 
 cheerios_scrambled = cheerios;
@@ -31,14 +31,14 @@ mac_scrambled = mac;
 mac_scrambled([3 14 8]) = ['O' 'O' 'R'];
 disp(mac_scrambled);
 
-%Q2.2: More replacing letters in strings
+%% Q2.2: More replacing letters in strings
 str = 'MACARONI AND CHEESE';
 id1=str([1 2 7 9 14:19]);
 id2=str([15 16 5 9 1 8 7 12 9 8 18 9 3 15 8 7 19 18 19]);
 disp(id1);
 disp(id2);
 
-%Q2.3: Creating vectors
+%% Q2.3: Creating vectors
 A = 1:10;
 A2 = linspace(1,10,10);
 disp(A);
@@ -69,41 +69,45 @@ E2_pi = linspace(0,15.7080,6);
 disp(E);
 disp(E2);
 
-%Q2.4: More indexing into strings
+%% Q2.4: More indexing into strings
 str2 = 'aaaaaaaaaaaaaaaaaaaa';
-str2(3:3:end) = ['c'];
+str2(3:3:end) = 'c';
 disp(str2);
 
-str2(2:3:end) = ['b'];
+str2(2:3:end) = 'b';
 disp(str2);
 
 disp(str2(3:3:end)); %demonstrating that every 3rd letter is 'c'
 
-str2(4:6) = ['d' 'e' 'f'];
+str2(4:6) = 'def';
 disp(str2);
 
-str2([4:6 10:12 16:18]) = ['d' 'e' 'f' 'd' 'e' 'f' 'd' 'e' 'f'];
+str2([4:6 10:12 16:18]) = 'defdefdef';
+str2([4+(0:2) 10+(0:2) 16+(0:2)]) = 'defdefdef'; %this is the same as the line above
 disp(str2);
 
 disp(str2([6 12 18])); % demonstrating that 6th, 12th and 18th letters are 'f'
 
-%Q2.5: Indexing into vectors
+%% Q2.5: Indexing into vectors
 
-time = [12:1.23:100]; %pick an ending number that would give more than 40 measurements
-time = time(1:40);
+time = 12:1.23:100; %pick an ending number that would give more than 40 measurements
+time = time(1:40); %truncate it to 40
 disp(time(5));
 disp(time(end));
 
-%Q2.6: Still more indexing
+%another way: time = linspace(12,12+(39*1.23),40)
+
+%% Q2.6: Still more indexing
 resp='rerekererererererererererererererererere';
 disp(find(resp == 'k')); % finding the index with the 'k'
+% or just display 'k': disp(resp(5));
 
 resp(5) = 'r';
 disp(resp);
 disp(find(resp == 'e')); %finding the indices where 'e' was pressed. This is how I originally did it
 disp(resp(2:2:end)); %solution from book - easier to see that all the even ones are 'e'
 
-%Q2.7: Checking your understanding
+%% Q2.7: Checking your understanding
 vect = 12:-1:1;
 
 %Guess outputs
