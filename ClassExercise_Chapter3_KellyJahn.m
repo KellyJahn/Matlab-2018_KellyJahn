@@ -8,7 +8,7 @@ mat=[ 1 2 3 4; 4 5 6 7; 8 9 10 11];
 
 %If you look at the size of mat you will see that it has 3 rows and 4 columns.
 
-%size(mat)
+size(mat)
 
 %a) Before typing anything in, guess what will result from:
 
@@ -51,7 +51,7 @@ v2 =[1 0 1 0];
 
 % Calculate the sum of all odd numbers from 1 to 99
 
-%sum(1:2:99) = 2500
+sum(1:2:99) = 2500
 
 %% Q 3.6: Making pi
 
@@ -105,15 +105,17 @@ w = [1 1 1 1 1]/5;
 % 
 % c) Show that the inner product of w and heights is the same as the mean. Do you see why?
 %
-w.*heights;
-size(w.*heights);
+w*heights
+
+%yes
 
 % d)  Now let 
 w = [1 1 1 0 1]/4;
 % 
 % Show that the inner product of w and heights is the mean height after taking out the fourth value.
 
-w([1:3 5]).*heights %wrong
+w*heights
+height2 = mean(heights([1:3 5]))
 
 
 
