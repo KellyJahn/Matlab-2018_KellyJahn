@@ -14,13 +14,15 @@ lies([3 11]) = 'LP'
 
 % b) Start with a string containing It’s pouring with rain and replace the p with an r and the r with a p.
 
-rain = 'It s pouring with rain';
+rain = 'It''s pouring with rain';
 rain([6 9 19]) = 'rpp'
 
 % c) Now try to do this for both a) and b) in a single line of code.
 
-rain_lies = 'A PACK OF LIES It s pouring with rain';
-rain_lies([3 11 21 24 34]) = 'LPrpp'
+% Oh, actually I wanted them separately in a single line, just as you did
+% it above
+% rain_lies = 'A PACK OF LIES It s pouring with rain';
+% rain_lies([3 11 21 24 34]) = 'LPrpp'
  
 %% Q 2.2: More replacing letters in strings.
 %Starting with the string:
