@@ -5,7 +5,7 @@
 % your version of this m-file should be uploaded to your github account.
 % Then please email me the link to your github account
 
-%%Q 2.1: Replacing letters in strings
+%% Q 2.1: Replacing letters in strings
 
 % a) Start with a string containing A PACK OF LIES and replace the P with an L and the L with a P.
 
@@ -14,7 +14,7 @@ lies([3 11]) = 'LP'
 
 % b) Start with a string containing It’s pouring with rain and replace the p with an r and the r with a p.
 
-rain = 'It''s pouring with rain';
+rain = 'It''s pouring with rain'; %put two ' to be able to display a '
 rain([6 9 19]) = 'rpp'
 
 % c) Now try to do this for both a) and b) in a single line of code.

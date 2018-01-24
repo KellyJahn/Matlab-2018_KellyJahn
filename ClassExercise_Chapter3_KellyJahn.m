@@ -1,6 +1,6 @@
 % Questions for Chapter 3
 
-%Q 3.1: Basic calculations.
+%% Q 3.1: Basic calculations.
 
 %Create the following matrix mat:
 
@@ -33,6 +33,8 @@ size(mat)
 % e) Use min twice to calculate the minimum of the entire matrix
 
 %min(min(mat)) = 1;
+
+%better programming: min(mat(:))
 
 %% Q 3.2: Calculations with vectors.
 
@@ -75,17 +77,17 @@ c = 6./b;
 % 
 % d) Create a scalar ‘d’ that is the sum of vector ‘c’
 
-d = sum(c);
+d = sum(c');
 % 
 % e) Take the square root of scalar d.
 
-sqrt(d);
+sqrt(d)
 % 
 % f) For extra credit, try to do to this all in a single line!
 
 sqrt(sum(6./((1:10000).^2)));
 
-% Q 3.7: Inner and Outer Products
+%% Q 3.7: Inner and Outer Products
 % 
 % Let the vector ‘heights’ be a list of heights in inches:
 
