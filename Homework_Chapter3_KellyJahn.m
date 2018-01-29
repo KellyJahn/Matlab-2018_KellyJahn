@@ -9,7 +9,7 @@ max(mat')
 
 % b) Calculate the overall mean of mat.
 mean(reshape(mat,[9 1]))
-
+mean(mat(:))
 % c) Square each element of mat, and calculate the mean along each column.
 mean(mat.^2)
 
@@ -49,6 +49,8 @@ w = ones(12,1)./12;
 % Try to use words to explain why. 
 
 dot(w,num_shares)
+num_shares*w
+% A*B = C, C has the number of rows of A and the number of columns of B
 av_shares
 
 %These values are the same because, to calculate the the inner product, each element of
