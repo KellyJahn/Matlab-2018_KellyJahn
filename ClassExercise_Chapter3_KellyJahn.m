@@ -34,7 +34,7 @@ size(mat)
 
 %min(min(mat)) = 1;
 
-%better programming: min(mat(:))
+%better programming: min(mat(:)) , you are absolutely right!
 
 %% Q 3.2: Calculations with vectors.
 
