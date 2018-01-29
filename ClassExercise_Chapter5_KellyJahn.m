@@ -1,6 +1,6 @@
 %% Questions for Chapter 5
  
-% due 1/19/2018
+% due 1/29/2018
 % see the word documet Exercises for chapter 5 for the images
 %% Q 5.1 Images of matrices
 
@@ -68,15 +68,18 @@ image(M);
 % b) Make a new color map of size 256x3 with each of the three columns (r, g and b) modulating sinusoidally from 0 to 1 for four cycles with a phase of pi.  (If you’re rusty on your trigonometry, see the Hints section).  
 % A plot of each column of the color map should look like this:
 
-I'm really stuck here. 
 
-cmap = zeros(256,3);
 nCycles = 4;
 phase = pi;
-for i = 1:3;
-    cmap(:,i) = (sin(linspace(0,2*pi*nCycles,256)-phase+1)/2);
+plot((sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2)
+
+nCycles = 4;
+phase = pi;
+cmap = zeros(256,3);
+for i = 1:3
+    cmap(:,i) = (sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2;
 end
-colormap(cmap)
+colormap(cmap) %this isn't working
 
 % IMAGE5.2b
 
@@ -89,9 +92,11 @@ colormap(cmap)
 % You can make the grating drift through 4 cycles over 100 frames by setting the phase with a loop like this:
 
 for phase = linspace(0,8*pi,100)
-	.
-	.
-	.
+    for i = 1:3
+	cmap(:,i) = (sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2;
+    end
+    colormap(cmap)
+    drawnow
 end
 
 %% Q 5.3 Magic Letters 
@@ -116,6 +121,19 @@ T=[ 1 1 1 1 1; ...
 
 % Combine Z and T to create a matrix ZT and create two colormaps (which will need to have 4 rows): 
 % cmapZ and cmapT, such that the following commands create the following two images.
+
+ZT = 1+Z+(T*2)
+
+cmapZ = [0 0 0;...
+         0 0 1; ...
+         0 0 0; ...
+         0 0 1];
+     
+cmapT = [0 0 0;... 
+         0 0 0;... 
+         1 .7 .7;... 
+         1 .7 .7];
+
 image(ZT); axis off
 colormap(cmapZ); 
 colormap(cmapT)
@@ -124,14 +142,47 @@ colormap(cmapT)
 
 %% Q 5.4 Altering the rat random walk model 
 
+ntrials = 20;
+timepts = 0:.01:2;
+signal = 0.03*rand(ntrials,length(timepts));
+noise = 0.8*randn(ntrials,length(timepts));
+choicethreshold = 8;
+
+for n=1:ntrials;
+    resp(n,1)=0
+    for t=2:length(timepts)
+        resp(n,t)=resp(n,t-1)+signal(n,t)+noise(n,t);
+        if resp(n,t) >= choicethreshold
+            resp(n,t:length(timepts))=(2*choicethreshold);
+            t = length(timepts+1);
+        elseif resp(n,t)<= -choicethreshold
+            resp(n,t:length(timepts))= -(2*choicethreshold);
+            t = length(timepts+1);
+        end
+    end
+end
+cmap = gray((4*choicethreshold)+1);
+colormap(cmap);
+image(timepts,1:ntrials,resp+(2*choicethreshold)+1);
+xlabel('time')
+ylabel('trial number')
+            
+
+
 %  Alter the tightrope walker model to do the following
 
 % a) She makes the steps more quickly. (See Hints if you get stuck.)
+
+signal = 0.05*rand(ntrials,length(timepts)); %increased 0.03 to 0.05
  
 % b) She alternates between walking frontward and backward on the tightrope
+
+%I have no idea
  
 % c) When she takes a step forward  the image is green and when whs goes backward the image is green. (See Hints if you get stuck.)
- 
+cmap2 = [1 0 0; 0 1 0]; 
+
+
 % The following image incorporates all these changes.
 
 % IMAGE5.4
