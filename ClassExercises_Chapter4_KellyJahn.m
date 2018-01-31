@@ -16,7 +16,7 @@ for iRow = 1:5
 end
 D
 
-E = ones(6); %I looked at the answer key for this
+E = ones(6); 
 for i = 1:6
     for j = 1:6
         if i<=j
@@ -110,8 +110,6 @@ end
 %% Q4.5: while loops
 
 %ceil rounds the elements of X to the nearest integers towards infinity
-%I had to look at the answer key to do this, but I used randi instead of
-%rand
 
 count = 1;
 roll = ceil(randi(6,1,2));
