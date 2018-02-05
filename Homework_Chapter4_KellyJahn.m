@@ -1,6 +1,6 @@
 %% Homework Chapter 4
 % Kelly Jahn 
-% Due 1/31/2018
+% Due 2/7/2018
  
 %% Q 4.1: Making matrices
  
@@ -119,17 +119,15 @@ mat(:,:,2) = [17     5     9     9    12; ...
 % a) Find out how many scores there are greater or 
 % equal to 15.
 
-size(find(mat>=15)) %this gives a 9x1 column vector, so you I would infer that there are 9 elements with values greater than 15
-numel(find(mat>=15)) %I found 'numel' function online, which is cool
+numel(find(mat>=15))
 
 % b) Find out how many scores greater or equal to 15 
 % there were among people who didn’t get the cup of tea.
 
-%If I assume the tea-drinking conditions were in the second half of the 3rd
+%If I assume the non-tea-drinking conditions were in the second half of the 3rd
 %dimension:
 
-ind = sub2ind(size(mat),:,:,2) %I'm not sure how to do this
-size(find(ind>=15))
+numel(find(mat(21:40)>=15))
 
 %c) Set all the values less than or equal to 4 to NaN.
 
@@ -147,7 +145,22 @@ nanmean(mat)
 %       (i) how many NaN there are in that subject’s data, and
 %       (ii) how many values there are that are greater or equal to 15.
 
-% Does this mean across both conditions (tea and no-tea)?
+countnan = zeros(4,5,2);
+count15=zeros(4,5,2);
+for i = 1:4
+    for j = 1:5
+        for k = 1:2
+            if isnan(mat(i,j,k))
+                countnan(i,j,k) = 1;
+            elseif mat(i,j,k) >= 15;
+                count15(i,j,k) = 1;
+            end
+        end
+    end
+end
+subjectnan = sum(countnan)
+subject15 = sum(count15)
+% This is the sum for each subject within each condition (tea and no-tea)
 
 %% Q 4.3: Logical operations, mod.
 

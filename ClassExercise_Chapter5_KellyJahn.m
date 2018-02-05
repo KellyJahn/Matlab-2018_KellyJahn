@@ -1,6 +1,6 @@
 %% Questions for Chapter 5
  
-% due 1/29/2018
+% due 2/5/2018
 % see the word documet Exercises for chapter 5 for the images
 %% Q 5.1 Images of matrices
 
@@ -44,6 +44,7 @@ for i = 1:6
         end
     end
 end
+N
 
 figure(2);
 colormap(cmap);
@@ -68,7 +69,6 @@ image(M);
 % b) Make a new color map of size 256x3 with each of the three columns (r, g and b) modulating sinusoidally from 0 to 1 for four cycles with a phase of pi.  (If you’re rusty on your trigonometry, see the Hints section).  
 % A plot of each column of the color map should look like this:
 
-
 nCycles = 4;
 phase = pi;
 plot((sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2)
@@ -79,7 +79,8 @@ cmap = zeros(256,3);
 for i = 1:3
     cmap(:,i) = (sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2;
 end
-colormap(cmap) %this isn't working
+colormap(cmap);
+%this isn't working
 
 % IMAGE5.2b
 
@@ -98,6 +99,8 @@ for phase = linspace(0,8*pi,100)
     colormap(cmap)
     drawnow
 end
+%Not working because my figure isn't working
+
 
 %% Q 5.3 Magic Letters 
 
@@ -177,7 +180,7 @@ signal = 0.05*rand(ntrials,length(timepts)); %increased 0.03 to 0.05
  
 % b) She alternates between walking frontward and backward on the tightrope
 
-%I have no idea
+signal(2:2:end,:) = -signal(1:2:end,:);
  
 % c) When she takes a step forward  the image is green and when whs goes backward the image is green. (See Hints if you get stuck.)
 cmap2 = [1 0 0; 0 1 0]; 
