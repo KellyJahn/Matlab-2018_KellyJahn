@@ -3,27 +3,12 @@
 clear all
 close all
 
-amp = 2;
-sf= 6; %spatial frequency, number of times it cycles b/t -pi and pi
-rad = pi;
-x = linspace(-pi,pi,100);
+amp = 1; sf= 6; rad = pi; size_ap = 100;
+backlum = 128.5;
 
-sinewave = sin(x*sf);
-plot(x,sinewave)
-
-oneM = ones(size(sinewave));
-
-sinewave2D = amp*(oneM'*sinewave); %gives a 100x100 matrix that replicates sinewave along each row; multiplying by amp makes it go b/t dark and light gray
-sinewave2D_scaled = ((sinewave2D+1)*127.5)+1; %why 127.5? we have 256 values in colormap; adding 1 to "sinewave2D" adds 1 to the amplitude
-
-image(sinewave2D_scaled); colormap(gray(256))
-
-%a faster way to do the loop below this without for loop
-[X, Y] = meshgrid(linspace(-pi,pi,100)); %meshgrid gives a vector that goes from -pi to pi in steps of 100; you get out two vectors (X and Y)
-ind=find(X.^2+Y.^2>rad^2); %where are the values that are greater than rad^2
-sinewave2D_scaled(ind) = 127.5; %set those values to gray
-image(sinewave2D_scaled);
-colormap(gray(256))
+[sw2D] = make2Dsinewave(amp, size_ap, sf); %now we are using functions that we created
+[sw2D] = putinaperture(sw2D,rad,backlum);
+image(sw2D); colormap(gray(256))
 
 %imagesc automatically re-scales your colormap
 
@@ -37,21 +22,45 @@ colormap(gray(256))
 % end
 % image(sinewave2D_scaled);
 % colormap(gray(256))
+%% Gaussian gabor
+
+clear all
+close all
+amp=.5; size_ap=100;
+backlum=128.5;
+sd=pi/4;
+
+[X, Y] = meshgrid(linspace(-pi,pi,size_ap));
+G=exp(-(X.^2+Y.^2)/sd.^2); %equation for a Gaussian
+imagesc(G) %this is a Gaussian
+
+[X, Y] = meshgrid(linspace(-pi,pi,size_ap));
+R = sqrt(X.^2+Y.^2); imagesc(R)
+T = atan2(Y,X);
+Tradial = sin(5*T)
+imagesc(Tradial)
+
+spiral = sin(2*pi*R+T)
+imagesc(spiral)
 
 %% Build the array
+clear all
+close all
+amp=.5; size_ap=100;
+backlum=128.5;
 
-x = linspace(-pi,pi,100);
-naps = 2;
-sep = 50;
-bigMatSize = [(naps+1)*sep]+[length(x)*naps]; 
-bigMat = 127.5*ones(bigMatSize);
+naps = 2; sep = 50;
+bigMatSize = [(naps+1)*sep]+[size_ap*naps]; 
+bigMat = backlum*ones(bigMatSize);
 
-stpt=[sep (sep*2)+length(x)];
+stpt=[sep (sep*2)+size_ap];
 
 for i = 1:naps
     for j = 1:naps
-bigMat(stpt(i):stpt(i)+length(x)-1, stpt(j):stpt(j)+length(x)-1) = ...
-    sinewave2D_scaled;
+        rad = (i*j)/2; sf=3+(mod(i+j,2)*3);
+        [sw2D] = make2Dsinewave(amp, size_ap, sf);
+        [sw2D] = putinaperture(sw2D,rad,backlum, 'gaussian');
+        bigMat(stpt(i):stpt(i)+size_ap-1, stpt(j):stpt(j)+size_ap-1) = sw2D;
     end
 end
 imagesc(bigMat)

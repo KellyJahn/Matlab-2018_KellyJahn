@@ -13,7 +13,7 @@ M =  [2    2     2     2     2     2
      1     1     1     1     2     2
      1     1     1     1     1     2];
 
-  M = ones(6);
+M = ones(6);
  for i = 1:6
      for j = 1:6
          if i<=j
@@ -39,7 +39,7 @@ image(M)
 N = ones(6);
 for i = 1:6
     for j = 1:6
-        if round((i+j)/2) ~= (i+j)/2;
+        if round((i+j)/2) ~= (i+j)/2 %or could write if mod(i+j,2) == 0
             N(i,j) = 2;
         end
     end
@@ -66,20 +66,28 @@ image(M);
 
 % IMAGE5.2a
 
-% b) Make a new color map of size 256x3 with each of the three columns (r, g and b) modulating sinusoidally from 0 to 1 for four cycles with a phase of pi.  (If you’re rusty on your trigonometry, see the Hints section).  
+% b) Make a new color map of size 256x3 with each of the three columns (r, g and b) modulating sinusoidally 
+%from 0 to 1 for four cycles with a phase of pi.  (If you’re rusty on your trigonometry, see the Hints section).  
 % A plot of each column of the color map should look like this:
 
-nCycles = 4;
-phase = pi;
-plot((sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2)
+sw = sin(linspace(-4*pi,4*pi,256)); %this gives 4 cycles
+sw=(sw/2)+.5; %this scales it between -1 and 1
+figure(1);
+plot(sw)
+figure(2);
+cmap = repmat(sw',1,3);
+image(M); colormap(cmap);
 
-nCycles = 4;
-phase = pi;
-cmap = zeros(256,3);
-for i = 1:3
-    cmap(:,i) = (sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2;
-end
-colormap(cmap);
+
+%nCycles = 4;
+%phase = pi;
+%plot((sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2)
+
+%cmap = zeros(256,3);
+%for i = 1:3
+ %   cmap(:,i) = (sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2;
+%end
+%colormap(cmap);
 %this isn't working
 
 % IMAGE5.2b
@@ -92,14 +100,24 @@ colormap(cmap);
 % c) Make the grating move or ‘drift’ rightward by changing the phase in a loop, resetting the color map and using the ‘drawnow’ command. 
 % You can make the grating drift through 4 cycles over 100 frames by setting the phase with a loop like this:
 
-for phase = linspace(0,8*pi,100)
-    for i = 1:3
-	cmap(:,i) = (sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2;
-    end
-    colormap(cmap)
-    drawnow
+image(M)
+for p = linspace(0,8*pi,100);
+    sw = sin(p+linspace(-4*pi,4*pi,256));
+    sw = (sw/2)+.5;
+    cmap = repmat(sw',1,3);
+    colormap(cmap);
+    drawnow;
 end
-%Not working because my figure isn't working
+
+
+%for phase = linspace(0,8*pi,100)
+ %   for i = 1:3
+%	cmap(:,i) = (sin(linspace(0,2*pi*nCycles,256)'-phase)+1)/2;
+  %  end
+  %  colormap(cmap)
+  %  drawnow
+%end
+%This does not work ...
 
 
 %% Q 5.3 Magic Letters 
