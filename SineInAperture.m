@@ -1,9 +1,11 @@
 %SineInAperture
+%downloade Ione's file...this is messed up
 
 clear all
 close all
 
-amp = 1; sf= 6; rad = pi; size_ap = 100;
+
+amp = 1; stim(1).sf= 6; rad = pi; size_ap = 100;
 backlum = 128.5;
 
 [sw2D] = make2Dsinewave(amp, size_ap, sf); %now we are using functions that we created
