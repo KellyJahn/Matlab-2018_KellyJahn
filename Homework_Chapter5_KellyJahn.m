@@ -93,12 +93,15 @@ plot(timevec, data, '-')
 % a) What is the mean response during all the data points that are within the first ½ second of every trial?
 
 n = 500;
-b = arrayfun(@(i) mean(data(i:i+n-1)),1:n:length(data)-n+1)';
+b = arrayfun(@(i) mean(data(i:i+n-1)),1:2500:length(data)-n+1)';
+% so each trial is separated by 2500 (5000ms), b shoul be length 30.
 
 % b) What is the mean response during the interval 2-2.5s of each trial?
 
 n=2000:2500;
-b = arrayfun(@(i) mean(data(i:i+n-1)),1:n:length(data)-n+1)';
+b = arrayfun(@(i) mean(data(i:i+n-1)),1:n:length(data)-n+1)'; 
+% this is odd, since n is a vector, should it not be
+b = arrayfun(@(i) mean(data(i:i+250)),1000:2500:length(data))'; 
 
 % c) during which timepoints does the EEG response have values greater than 0.9?
 
@@ -132,16 +135,41 @@ image(per'); colormap(gray(100));
 %b) change the colormap so that values above 90% are white and values below 10% are black.
 
 figure(9);
-image(per'); colormap(gray(80));
+cmap=gray(100);
+cmap(1:10,:)=0;
+cmap(90:100,:)=1;
+image(per'); colormap(cmap); % this makes above 80 % white
+
 
 %c) how many rats performed above 66% correct between trials 6001-7001?
 
 numel(find(per(60:70,:) > 66)) % this finds the number of bins where rats scored > 66%
 
+perC = per;
+perC(find(binsteps>7001), :) = NaN; % each bin has 100 trials and you need to put the Nans in perC
+perC(find(binsteps<6001), :) = NaN;
+imagesc(perC)
+tmp=nanmean(perC, 1);
+nrats=length(find(tmp>66));
+
 %d) which rats were they?
 
 find(per(60:70,:) > 66)
+ratID(find(tmp>66))
 
 %e) How many trials would be needed for 40/50 rats to be performing above 80%.
+per80=per>80;
+numover80=sum(per80,2);
+minTover80=find(numover80>40);
+minTover80(1);
+binsteps(minTover80)
 %f) It turns out that for the rats with even ID numbers (2, 4, 6 10 etc.) the recording machine was on the blink for an interval between the 5678th trial and the 7533rd trial. Convert those numbers to NaN.
+per( 56:76, find(mod(ratID,2)==0))=NaN;
 
+figure(3)
+clf
+image(binsteps,size(ratID),per');
+colormap(gray(100));
+xlabel('Trial');
+ylabel('Rat');
+colorbar
