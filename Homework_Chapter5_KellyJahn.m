@@ -7,6 +7,10 @@
 
 clear all
 
+blue = [0 0 1]; %i could just use these variables instead of the matrices
+white = [1 1 1]; 
+red = [1 0 0];
+
 flagsize=15;
 saltire=zeros(flagsize);
 
@@ -17,14 +21,14 @@ end
 
 %Figure 1
 figure(1)
-image(saltire+1)
-cmap= [0 0 1; 1 1 1];
+image(saltire+1) %images need to have integers starting at 1 to index into the first value in colormap (it can't be zero)
+cmap= [blue; white];
 colormap(cmap)
 
 %Figure 2
 figure(2)
 image(saltire+1)
-cmap= [1 0 0; 1 1 1];
+cmap= [red; white];
 colormap(cmap)
 
 george=zeros(flagsize);
@@ -49,7 +53,7 @@ cmap(3, :)= [1 0 0];
 colormap(cmap)
 
 %Figure 5
-bars=[ceil(flagsize/2)-1 ceil(flagsize/2)+1];
+bars=[ceil(flagsize/2)-1 ceil(flagsize/2)+1]; %complicated way of typing 7 and 9
 union(bars, :)=union(bars, :)+3;
 union(:,bars)=union(:, bars)+3;
 union(union>6)=union(union>6)-3; 
@@ -85,28 +89,33 @@ axis off; axis equal
 
 ntrials=30;
 durtrial=5*1000;
-timevec=0:2:durtrial*ntrials;
+sampRate = 2;
+
+timevec=sampRate:sampRate:durtrial*ntrials; %note: not starting at 0
+
+%timevec=0:2:durtrial*ntrials;
 data=sin((2*pi* timevec)/(durtrial))+.1*randn(size(timevec));
 figure(7);
 plot(timevec, data, '-')
 
 % a) What is the mean response during all the data points that are within the first ½ second of every trial?
 
-n = 500;
-b = arrayfun(@(i) mean(data(i:i+n-1)),1:n:length(data)-n+1)';
+timevecTrial = mod(timevec,durtrial);
+
+mean(data(timevecTrial<500))
+
 
 % b) What is the mean response during the interval 2-2.5s of each trial?
 
-n=2000:2500;
-b = arrayfun(@(i) mean(data(i:i+n-1)),1:n:length(data)-n+1)';
+mean(data(timevecTrial<2000 & timevecTrial<2500))
 
 % c) during which timepoints does the EEG response have values greater than 0.9?
 
-find(data > 0.9);
+idx = find(data > 0.9)
 
 % d) during which timepoints does the EEG response have values between 0.7 and 0.8?
 
-[find(data >= 0.7)  find(data <= 0.8)]; 
+find(data >= 0.7 & data <= 0.8)
 
 % (obviously you will get different answers each time because your data will vary each time).
 
@@ -127,21 +136,51 @@ per(per>100)=100; per(per<0)=0;
 %using a colormap that varies between white for 100% correct and black for 0% correct (not using imagesc).
 
 figure(8);
-image(per'); colormap(gray(100));
+image(binsteps,ratID,per'); colormap(gray(100));
+xlabel('Trial');
+ylabel('Rat');
+colorbar
 
 %b) change the colormap so that values above 90% are white and values below 10% are black.
 
-figure(9);
-image(per'); colormap(gray(80));
+cmap=gray(100);
+cmap(1:10,:)=0;
+cmap(91:100,:)=1;
+colormap(cmap)
 
 %c) how many rats performed above 66% correct between trials 6001-7001?
 
-numel(find(per(60:70,:) > 66)) % this finds the number of bins where rats scored > 66%
+subper = per(61:70,:);
+meansubper = mean(subper)
+sum(meansubper>66)
+
 
 %d) which rats were they?
-
-find(per(60:70,:) > 66)
+id=meansubper>66
+sum(id)
+ratID(id)
 
 %e) How many trials would be needed for 40/50 rats to be performing above 80%.
+
+M80 = per>80;
+vectrat80 = sum(M80,2); %sum the rows; the number of rats that did better than 80% in that time bin
+
+%find first time that vectrat80>40 and then the number of trials after
+%which that occurred
+
+binsteps(min(find(vectrat80>40))) %the number of trials where 40 rats first perform better than 80%
+
 %f) It turns out that for the rats with even ID numbers (2, 4, 6 10 etc.) the recording machine was on the blink for an interval between the 5678th trial and the 7533rd trial. Convert those numbers to NaN.
+
+badRats = ~mod(ratID,2); %list of 50 numbers for which when they are 1, the ID is an even number
+badBins = 56:76;
+per(badBins, badRats) = NaN;
+
+figure(9);
+clf
+image(binsteps,1:50,per'); colormap(gray(100));
+xlabel('Trial');
+ylabel('Rat');
+colorbar
+
 
