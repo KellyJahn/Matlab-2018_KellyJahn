@@ -60,26 +60,28 @@ sterr=sqrt([[n_women * women_pc * women_apple]./n_women ...
 
 a2 = subplot(2,2,2); title('bar plot with errorbars');
 p2 = barweb([women_pc women_apple; men_pc men_apple], sterr, ...
-.5, {'women' 'men'}, 'gender & computers', [],'percent',[ 1 .5 .5; 1 0 1]); 
+.5, {'women' 'men'}, 'gender & computers','percent',[ 1 .5 .5; 1 0 1]); 
 set(a2, 'YLim', [0 1.2])
 
 % ================================%
 % QUESTION 1. Add a stacked bar plot in this subplot. 
 % use >doc bar for help or try this code as an example
-y = [1 2 3; 4 5 6];
-ax1 = subplot(3,1,1);
-bar(ax1,y)
-ax2 = subplot(3,1,2);
-bar(ax2,y,'stacked')
+%y = [1 2 3; 4 5 6];
+%ax1 = subplot(3,1,1);
+%bar(ax1,y)
+%ax2 = subplot(3,1,2);
+%bar(ax2,y,'stacked')
 
-a3=subplot(3,1,3)
-bar(a3,y,'stacked')
+
+a3=subplot(2,2,3)
+p3=bar(a3,[women_pc men_pc; women_apple men_apple],'stacked');
 
 % ================================% 
 
 a4=subplot(2,4,7); title('women'); 
+p4 = pie([women_pc women_apple]); 
 l4 = legend({'pc', 'apple'}, 'Position', [0.6917 0.0607 0.1536 0.0905]);
-p4 = pie([women_pc women_apple]); hold on
+hold on
 
 a5=subplot(2,4,8); title('men')
 p5 = pie([ men_pc men_apple]); hold on
@@ -95,7 +97,7 @@ set(gcf,'Name', 'Do computers rot your brain?');
 subplot(1,3,1)
 plot([data{:,facebook_header}], [data{:, grade_header}], 'ko');
 xlabel('Facebook friends')
-ylabel('grade')
+ylabel('Grade')
 
 % ================================% 
 % QUESTION 2.add a subplot that is the same as the one above but
@@ -117,7 +119,7 @@ game_header=find(strcmp(headers,'games_hours'));
 subplot(1,3,2);
 plot([data{:,game_header}], [data{:, grade_header}], 'ko');
 xlabel('Gaming hours')
-ylabel('grade')
+ylabel('Grade')
 
 % ================================% 
 % ================================% 
@@ -126,9 +128,9 @@ ylabel('grade')
 % of sleep on the y-axis
 sleep_header=find(strcmp(headers,'sleep'));
 subplot(1,3,3);
-plot([data{:,sleep_header}], [data{:, grade_header}], 'ko');
-xlabel('Sleep hours')
-ylabel('grade')
+plot([data{:,game_header}], [data{:, sleep_header}], 'ko');
+xlabel('Gaming hours')
+ylabel('Sleeping hours')
 
 % ================================% 
 % ================================% 
@@ -137,6 +139,9 @@ ylabel('grade')
 
 figure(3);
 plot3([data{:,sleep_header}],[data{:,game_header}], [data{:,facebook_header}]);
+xlabel('Sleeping hours');
+ylabel('Gaming hours');
+zlabel('Facebook friends');
 
 % ================================% 
 % ================================% 
