@@ -16,7 +16,8 @@ x.vect = vect
 for i=1:length(vect)
     y(i).vect=vect(i);
 end
-y
+y(1).vect
+y(2).vect
 
 % y
  

@@ -46,6 +46,9 @@ for i = 1:5;
 end
 mat3
 
+%or
+mat3=fliplr(reshape(0:24,5,5)');
+
 
 mat4=[1     2     3     4     5; ...
      6     7     8     9    10; ...
@@ -95,19 +98,27 @@ mat7=[0     1     0     1     0; ...
  end
  mat7
  
+ %or
+ %for i=1:5
+    % for j=1:5
+       %  mat(i,j)=mod(i+j,2);
+    % end
+ %end
+ %mat
+ 
 %% Q 4.2: Indexing, matrices, length and for
 %You run an experiment and the data is collected into 
 % the following 3D matrix
 
-mat(:,:,1) = [9    16    16    18     4; ...
-     6    16    11    11     6; ...
+mat(:,:,1) = [9    16    16    18     4;...
+    6    16    11    11     6;...
     10    13     7    12     9; ...
     10     8    19    12     5];
 
-mat(:,:,2) = [17     5     9     9    12; ...
-     4     9     4     2     5; ...
-     5     6    18     5    12; ...
-     3    18    20     8    14];
+mat(:,:,2) = [17 5 9 9 12; ...
+    4 9 4 2 5; ...
+    5 6 18 5 12;...
+    3 18    20     8    14];
 
 % The rows represent repeated measurements, 
 % the columns represent subjects, 
@@ -120,7 +131,8 @@ mat(:,:,2) = [17     5     9     9    12; ...
 % equal to 15.
 
 numel(find(mat>=15))
-
+%or
+length(find(mat>=15))
 % b) Find out how many scores greater or equal to 15 
 % there were among people who didn’t get the cup of tea.
 
@@ -161,6 +173,14 @@ end
 subjectnan = sum(countnan)
 subject15 = sum(count15)
 % This is the sum for each subject within each condition (tea and no-tea)
+
+for s=1:5
+    tmp=squeeze(newmat(:,s,:));
+    disp(['Subject = ', num2str(s)]);
+    disp(['NaN''s = ', length(find(isnan(tmp(:))))])
+    disp(['15''s = ',length(find(tmp(:)>=15))]);
+end
+    
 
 %% Q 4.3: Logical operations, mod.
 
@@ -209,11 +229,11 @@ end
 % the sum of the four dice is equal to 20.
 
 count = 1;
-roll = ceil(randi([1, 6],1,4));
+roll = randi([1, 6],1,4)
 while sum(roll) ~= 20
     disp(sum(roll));
     count = count+1;
-    roll = ceil(randi([1, 6],1,4));
+    roll = randi([1, 6],1,4);
 end
 count
 
@@ -222,6 +242,8 @@ count
 
 
 %% and for the brave among you (xtra credit)
+
+%this is like bootstrapping
 
 clear all
 
@@ -232,8 +254,9 @@ women=66+randn(nsub, 1)*3;
 % calculate the real difference between them
 realdiff=mean(men)-mean(women);
 % throw all heights into a cauldron.
-
 all=[men ;women];
+
+pc=pctile(all,50);
 
 % calculated the expected distribution of differences in means between men and women with a sample of 20 
 % if there was no genuine height difference
@@ -241,10 +264,15 @@ for r=1:1000
     % stir the cauldron
     all=all(randperm(length(all)));
     % assume first 20 are men, second 20 are women
-    m_men(r)=mean(all(1:nsub));
-    m_women(r)=mean(all(nsub+1:end));
-    m_diff(r)=m_men(r)-m_women(r);
+    m_men(r)=mean(all(1:nsub)); %mean of fake men
+    m_women(r)=mean(all(nsub+1:end)); %mean of fake women
+    m_diff(r)=m_men(r)-m_women(r); %mean difference between fake men and women
 end
+
+hist(m_diff) %note that it is normal
+plot(realdiff)
+
+ttest(men,women) %1 = significantly different; 0 = non-significant
 
 % Modify the code to find out whether the height difference between men and women would be significant 
 % with 10 individuals, 20, 100. (in matlab the command is ttest).
