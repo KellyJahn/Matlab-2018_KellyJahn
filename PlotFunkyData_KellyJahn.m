@@ -2,11 +2,11 @@ clear all
 
 
 %% load in data
-xlsfile = '/Users/kelly1jahn/Desktop/MATLAB_2018/Matlab-2018/Psych315W18survey.xls';
+xlsfile=uigetfile('*.csv');
 [~, headers]=xlsread(xlsfile, 'A1:AP1');
 [~, ~, data]=xlsread(xlsfile, 'A2:AP153');
 headers=headers(1,:);
-data=data(2:153,:);
+data=data(1:152,:); % you already removed the header
 
 %% breakdown of computers by gender 
 gender_header=find(strcmp(headers,'gender'));
@@ -138,7 +138,7 @@ ylabel('Sleeping hours')
 % facebookfriends
 
 figure(3);
-plot3([data{:,sleep_header}],[data{:,game_header}], [data{:,facebook_header}]);
+plot3([data{:,sleep_header}],[data{:,game_header}], [data{:,facebook_header}], '.', 'MarkerSize', 10);
 xlabel('Sleeping hours');
 ylabel('Gaming hours');
 zlabel('Facebook friends');

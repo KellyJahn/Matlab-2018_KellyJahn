@@ -11,7 +11,8 @@
 %%
 clear all
 
-xlsfile =uigetfile;
+dirb
+xlsfile = '/Users/kelly1jahn/Desktop/MATLAB_2018/Matlab-2018_KellyJahn/Final_project_data_KellyJahn.xlsx';
 [~, headers]=xlsread(xlsfile,'A1:F1');
 [~,~,data]=xlsread(xlsfile,'A2:F40');
 
@@ -57,9 +58,7 @@ plot(low_thr_stim, yfit, 'r-.');
 ylabel('ECAP Amplitude (microV)');
 xlabel('Probe Current Level (dB rel 1 microA)');
 title('Lowest sQP Threshold Channel');
-% legend('Data','Regression Line', 'Location', 'Southeast'); 
-% do you need four legends that are identical, maybe use a subplot(2,3)
-% arrangement and put the legend in location westoutside?
+legend('Data','Regression Line', 'Location', 'Southeast');
 
 %Calculate parameters of interest for the channel with the lowest behavioral
 % threshold and display them in the command window
